@@ -1,0 +1,70 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
+    defaultConfig {
+        applicationId "com.example.ppavlik.hockeyappclient"
+        minSdkVersion 15
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+
+}
+
+apply plugin: 'kotlin-android'
+
+buildscript {
+    ext.retrofit_version = '2.1.0'
+    ext.kotlin_version = '1.0.4'
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.android.tools.build:gradle:2.2.0"
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    testCompile 'junit:junit:4.12'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    kapt 'com.android.databinding:compiler:2.2.0'
+    compile "com.squareup.retrofit2:retrofit:$retrofit_version"
+    compile("com.squareup.retrofit2:converter-gson:$retrofit_version") {
+        exclude group: 'com.squareup.retrofit2'
+        exclude group: 'com.google.code.gson'
+    }
+    compile("com.squareup.retrofit2:adapter-rxjava:$retrofit_version") {
+        exclude group: 'com.squareup.retrofit2'
+        exclude group: 'io.reactivex'
+    }
+    compile 'com.google.code.gson:gson:2.7'
+    //RxJava
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile('io.reactivex:rxkotlin:0.60.0') {
+        exclude module: 'kotlin-stdlib'
+        exclude module: 'rxjava'
+    }
+    compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
+}
+
+kapt {
+    generateStubs = true
+}
